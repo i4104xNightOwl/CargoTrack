@@ -26,7 +26,6 @@ export interface ServiceBase<T> {
     
     /**
      * Cập nhật dữ liệu dựa trên ID
-     * @param id 
      * @param item 
      * 
      * @returns Promise<T>: Dữ liệu mới sau khi được update
@@ -36,10 +35,10 @@ export interface ServiceBase<T> {
     
     /**
      * Xoa dữ liệu dựa trên ID
-     * @param id 
+     * @param item
      * 
      * @returns Promise<boolean>
      * @throws Error: Không tìm thấy dữ liệu
      */
-    delete(id: number): Promise<boolean>;
+    delete(item: T): Promise<boolean>;
 }

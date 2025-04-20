@@ -14,7 +14,7 @@ export default class UsersService implements IUsersService {
     update(item: IUsers): Promise<IUsers> {
         throw new Error('Method not implemented.');
     }
-    delete(id: number): Promise<boolean> {
+    delete(item: IUsers): Promise<boolean> {
         throw new Error('Method not implemented.');
     }
 

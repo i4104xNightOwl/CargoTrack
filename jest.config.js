@@ -1,8 +1,8 @@
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    roots: ['<rootDir>/src'],
-    testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+    roots: ['<rootDir>/tests'], 
+    testMatch: ['**/tests/**/*.ts', '**/?(*.)+(spec|test).ts'],
     transform: {
         '^.+\\.ts$': 'ts-jest',
     },
@@ -12,6 +12,6 @@ module.exports = {
     coveragePathIgnorePatterns: [
         '/node_modules/',
         '/dist/',
-        '/__tests__/'
+        '/__tests__/',
     ]
-}; 
+};
