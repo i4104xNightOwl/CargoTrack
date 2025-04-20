@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   db:
     image: mariadb:10.5
@@ -12,6 +10,8 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - cargotrack
+    ports:
+      - "3306:3306"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

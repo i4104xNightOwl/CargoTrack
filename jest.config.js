@@ -6,6 +6,11 @@ module.exports = {
     transform: {
         '^.+\\.ts$': 'ts-jest',
     },
+    moduleNameMapper: {
+        "^@src/(.*)$": "<rootDir>/src/$1",
+        "^@interface/(.*)$": "<rootDir>/interfaces/$1",
+        "^@configs/(.*)$": "<rootDir>/src/configs/$1"
+    },
     moduleFileExtensions: ['ts', 'js', 'json', 'node'],
     collectCoverage: true,
     coverageDirectory: 'coverage',

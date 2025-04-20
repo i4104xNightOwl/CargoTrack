@@ -1,20 +1,16 @@
-import Database from '../../src/configs/database';
+import { sequelize } from '../../src/configs/models/index';
 import { IUsers, UserStatus } from '../../interfaces/models/users.model';
 import UsersService from '../../src/services/users.service';
+import nomalizeDate from '../../utils/dateUtils';
 
 describe("Kiểm tra UserService", () => {
-    let database: Database;
-    // let connection: any;
-
-    beforeEach(() => {
-        database = Database.getInstance();
-        // connection = database.getConnection();
+    beforeEach(async () => {
+        await sequelize.authenticate();
+        await sequelize.sync({ force: true });
     })
-
-    afterEach(() => {
-        // Xóa bảng dành cho phần test tiếp theo
-        database.truncate('users');
-        database.disconnect();
+    
+    afterEach(async () => {
+        await sequelize.close();
     })
 
     it.only("Kiểm tra get", async () => {
@@ -40,7 +36,9 @@ describe("Kiểm tra UserService", () => {
         user.status = 1;
 
         expect(getUser.length).toBeGreaterThan(0);
-        expect(user).toEqual(expect.arrayContaining(getUser));
+        expect(nomalizeDate(getUser)).toEqual(
+            expect.arrayContaining([nomalizeDate(user)])
+        );
     });
 
     it("Kiểm tra getById", async () => {
