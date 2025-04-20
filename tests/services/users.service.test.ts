@@ -11,7 +11,13 @@ describe("Kiểm tra UserService", () => {
         connection = database.getConnection();
     })
 
-    it("Kiểm tra get", async () => {
+    afterEach(() => {
+        // Xóa bảng dành cho phần test tiếp theo
+        database.truncate('users');
+        database.disconnect();
+    })
+
+    it.only("Kiểm tra get", async () => {
         // Demo users
         const user: IUsers = {
             id: 1,
