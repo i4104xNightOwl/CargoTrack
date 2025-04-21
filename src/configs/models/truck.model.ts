@@ -1,37 +1,28 @@
 import { DataTypes, Model, ModelScopeOptions, ModelValidateOptions, Optional } from 'sequelize'
 import { sequelize } from '.'
+import { TruckStatus } from '../../../interfaces/models/truck.model';
 
 // Định nghĩa các attributes cho model
-export interface UsersDBAttributes {
+export interface TruckDBAttributes {
     id: number
-    username: string
-    password: string
-    email: string
-    phone: string
-    role: string
-    status: number
+    licensePlate: string
+    status: TruckStatus
     createdAt: Date
     updatedAt: Date
 }
 
 // Loại bỏ ID khi thêm dữ liệu
-export interface UsersDBCreationAttributes extends Optional<UsersDBAttributes, 'id'> { }
+export interface TruckDBCreationAttributes extends Optional<TruckDBAttributes, 'id'> { }
 
-export class UsersDB extends Model<UsersDBAttributes, UsersDBCreationAttributes> implements UsersDBAttributes {
+export class TruckDB extends Model<TruckDBAttributes, TruckDBCreationAttributes> implements TruckDBAttributes {
     id: number
-    username: string
-    password: string
-    email: string
-    phone: string
-    role: string
-    status: number
+    licensePlate: string
+    status: TruckStatus;
     createdAt: Date
     updatedAt: Date
     
     static readonly scopes: ModelScopeOptions = {
-        /*
-          nơi khai báo scope
-        */
+        
     }
 
     static readonly validations: ModelValidateOptions = {
@@ -41,30 +32,14 @@ export class UsersDB extends Model<UsersDBAttributes, UsersDBCreationAttributes>
     }
 }
 
-UsersDB.init({
+TruckDB.init({
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
     },
-    username: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
-    password: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
-    email: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
-    phone: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
-    role: {
+    licensePlate: {
         allowNull: false,
         type: DataTypes.STRING,
     },
@@ -84,11 +59,11 @@ UsersDB.init({
     },
 }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'truck',
     underscored: true,
     updatedAt: true,
     createdAt: true,
-    scopes: UsersDB.scopes,
-    validate: UsersDB.validations,
+    scopes: TruckDB.scopes,
+    validate: TruckDB.validations,
 })
 
