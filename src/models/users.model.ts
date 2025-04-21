@@ -1,4 +1,5 @@
 import { IUsers, UserStatus } from "@interface/models/users.model";
+import UsersService from "@src/services/users.service";
 
 export default class Users implements IUsers {
     id: number;
@@ -11,16 +12,25 @@ export default class Users implements IUsers {
     createdAt: Date;
     updatedAt: Date;
 
-    changePassword(password: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async changePassword(password: string): Promise<IUsers> {
+        const usersService: UsersService = new UsersService();
+        this.password = password;
+        await usersService.update(this);
+        return this;
     }
     
-    banned(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async banned(): Promise<IUsers> {
+        const usersService: UsersService = new UsersService();
+        this.status = UserStatus.BANNED;
+        await usersService.update(this);
+        return this;
     }
     
-    unban(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async unban(): Promise<IUsers> {
+        const usersService: UsersService = new UsersService();
+        this.status = UserStatus.ACTIVE;
+        await usersService.update(this);
+        return this;
     }
 
 } 

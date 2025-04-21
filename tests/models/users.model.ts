@@ -30,11 +30,10 @@ describe("Kiểm tra UsersModel", () => {
         const createdUser = await usersService.create(users);
 
         const user = await usersService.getById(createdUser.id);
-        const isChangePassword = await user.changePassword("new password");
+        await user.changePassword("new password");
 
         const getNewUser = await usersService.getById(createdUser.id);
 
-        expect(isChangePassword).toBe(true);
         expect(getNewUser.password).not.toBe(users.password);
     });
 
@@ -50,7 +49,7 @@ describe("Kiểm tra UsersModel", () => {
 
         const usersService = new UsersService();
         const createdUser = await usersService.create(users);
-        createdUser.banned();
+        await createdUser.banned();
 
         const getUser = await usersService.getById(createdUser.id);
 
@@ -69,8 +68,8 @@ describe("Kiểm tra UsersModel", () => {
 
         const usersService = new UsersService();
         const createdUser = await usersService.create(users);
-        createdUser.banned();
-        createdUser.unban();
+        await createdUser.banned();
+        await createdUser.unban();
 
         const getUser = await usersService.getById(createdUser.id);
         expect(getUser.status).toBe(UserStatus.ACTIVE);
