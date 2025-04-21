@@ -1,7 +1,19 @@
 
 describe("Kiểm tra TruckService", () => {
-    it("Kiểm tra get", () => {
+    beforeAll(async () => {
+        await sequelize.authenticate();
+    })
 
+    beforeEach(async () => {
+        await sequelize.sync({ force: true });
+    })
+    
+    afterAll(async () => {
+        await sequelize.close();
+    })
+    
+    it("Kiểm tra get", () => {
+        
     });
 
     it("Kiểm tra getById", () => {
