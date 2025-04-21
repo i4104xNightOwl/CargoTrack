@@ -27,23 +27,53 @@ describe("Kiểm tra UsersModel", () => {
             .build();
         
         const usersService = new UsersService();
-        await usersService.create(users);
+        const createdUser = await usersService.create(users);
 
-        const user = await usersService.getById(users.id);
+        const user = await usersService.getById(createdUser.id);
         const isChangePassword = await user.changePassword("new password");
 
-        const getNewUser = await usersService.getById(users.id);
+        const getNewUser = await usersService.getById(createdUser.id);
 
         expect(isChangePassword).toBe(true);
         expect(getNewUser.password).not.toBe(users.password);
     });
 
     it("Kiểm tra banned", async () => {
+        const users: IUsers = UsersBuilder.new()
+            .setUsername("username")
+            .setPassword("password")
+            .setEmail("email")
+            .setPhone("phone")
+            .setRole("role")
+            .setStatus(UserStatus.ACTIVE)
+            .build();
 
+        const usersService = new UsersService();
+        const createdUser = await usersService.create(users);
+        createdUser.banned();
+
+        const getUser = await usersService.getById(createdUser.id);
+
+        expect(getUser.status).toBe(UserStatus.BANNED);
     });
 
     it("Kiểm tra unban", async () => {
+        const users: IUsers = UsersBuilder.new()
+            .setUsername("username")
+            .setPassword("password")
+            .setEmail("email")
+            .setPhone("phone")
+            .setRole("role")
+            .setStatus(UserStatus.ACTIVE)
+            .build();
 
+        const usersService = new UsersService();
+        const createdUser = await usersService.create(users);
+        createdUser.banned();
+        createdUser.unban();
+
+        const getUser = await usersService.getById(createdUser.id);
+        expect(getUser.status).toBe(UserStatus.ACTIVE);
     });
 
 })
