@@ -1,4 +1,4 @@
-import { sequelize } from '../../src/configs/models/index';
+import { sequelize } from '../../src/configs/models';
 import { IUsers, UserStatus } from '../../interfaces/models/users.model';
 import UsersService from '../../src/services/users.service';
 import nomalizeDate from '../../utils/dateUtils';
