@@ -2,7 +2,7 @@ import { DataTypes, Model, ModelScopeOptions, ModelValidateOptions, Optional } f
 import { sequelize } from '.'
 
 // Định nghĩa các attributes cho model
-export interface UsersAttributes {
+export interface UsersDBAttributes {
     id: number
     username: string
     password: string
@@ -15,9 +15,9 @@ export interface UsersAttributes {
 }
 
 // Loại bỏ ID khi thêm dữ liệu
-export interface UsersCreationAttributes extends Optional<UsersAttributes, 'id'> { }
+export interface UsersDBCreationAttributes extends Optional<UsersDBAttributes, 'id'> { }
 
-export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
+export class UsersDB extends Model<UsersDBAttributes, UsersDBCreationAttributes> implements UsersDBAttributes {
     id: number
     username: string
     password: string
@@ -41,7 +41,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
     }
 }
 
-Users.init({
+UsersDB.init({
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -84,11 +84,11 @@ Users.init({
     },
 }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'UsersDB',
     underscored: true,
     updatedAt: true,
     createdAt: true,
-    scopes: Users.scopes,
-    validate: Users.validations,
+    scopes: UsersDB.scopes,
+    validate: UsersDB.validations,
 })
 
