@@ -24,3 +24,46 @@ export default class Users implements IUsers {
     }
 
 } 
+
+
+export class UsersBuilder {
+    item: Users;
+
+    private constructor() {
+        this.item = new Users();
+    }
+
+    public setUsername(username: string) {
+        this.item.username = username;
+        return this;
+    }
+
+    public setPassword(password: string) {
+        this.item.password = password;
+        return this;
+    }
+
+    public setEmail(email: string) {
+        this.item.email = email;
+        return this;
+    }
+
+    public setPhone(phone: string) {
+        this.item.phone = phone;
+        return this;
+    }
+
+    public setRole(role: string) {
+        this.item.role = role;
+        return this;
+    }
+
+    public setStatus(status: UserStatus) {
+        this.item.status = status;
+        return this;
+    }
+
+    public static new() { return new UsersBuilder(); }
+    public build() { return this.item }
+
+}
