@@ -9,17 +9,28 @@ export default class UsersService implements IUsersService {
         });
         return users;
     }
-    getById(id: number): Promise<IUsers> {
-        throw new Error('Method not implemented.');
+    async getById(id: number): Promise<IUsers> {
+        const users = await Users.findByPk(id);
+        if (!users) throw new Error('User not found');
+        return users.dataValues;
     }
+
     async create(item: IUsers): Promise<IUsers> {
         return await Users.create(item);
     }
-    update(item: IUsers): Promise<IUsers> {
-        throw new Error('Method not implemented.');
+
+    async update(item: IUsers): Promise<IUsers> {
+        const users = await Users.findByPk(item.id);
+        if (!users) throw new Error("User not found");
+        await users.update(item)
+        return this.getById(item.id);
     }
-    delete(item: IUsers): Promise<boolean> {
-        throw new Error('Method not implemented.');
+
+    async delete(item: IUsers): Promise<boolean> {
+        const users = await Users.findByPk(item.id);
+        if (!users) throw new Error("User not found");
+        await users.destroy();
+        return true;
     }
 
 }

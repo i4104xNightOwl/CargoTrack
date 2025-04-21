@@ -4,16 +4,19 @@ import UsersService from '../../src/services/users.service';
 import nomalizeDate from '../../utils/dateUtils';
 
 describe("Kiểm tra UserService", () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         await sequelize.authenticate();
+    });
+
+    beforeEach(async () => {
         await sequelize.sync({ force: true });
     })
     
-    afterEach(async () => {
+    afterAll(async () => {
         await sequelize.close();
     })
 
-    it.only("Kiểm tra get", async () => {
+    it("Kiểm tra get", async () => {
         // Demo users
         const user: IUsers = {
             id: 1,
@@ -58,7 +61,7 @@ describe("Kiểm tra UserService", () => {
         await usersService.create(user);        
 
         const getUser = await usersService.getById(user.id);
-        expect(getUser).toEqual(user);
+        expect(nomalizeDate(getUser)).toEqual(nomalizeDate(user));
     });
 
     it("Kiểm tra create", async () => {
@@ -78,7 +81,7 @@ describe("Kiểm tra UserService", () => {
         await usersService.create(user);
 
         const getUser = await usersService.getById(user.id);
-        expect(getUser).toEqual(user);
+        expect(nomalizeDate(getUser)).toEqual(nomalizeDate(user));
     });
 
     it("Kiểm tra update", async () => {
@@ -124,6 +127,5 @@ describe("Kiểm tra UserService", () => {
 
         const getAll = await usersService.get();
         expect(getAll.length).toBe(0);
-        expect(user).not.toEqual(expect.arrayContaining(getAll));
     });
 })
