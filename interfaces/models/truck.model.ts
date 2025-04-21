@@ -9,4 +9,13 @@ export interface ITruck {
     status: TruckStatus;
     createdAt: Date;
     updatedAt: Date;
+
+    /**
+     * Thay đổi trạng thái của xe hàng
+     * 
+     * @param status Trạng thái mới
+     *  
+     * @returns Promise<ITruck>
+     */
+    changeStatus(status: TruckStatus): Promise<ITruck>
 }
