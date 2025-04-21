@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: I4104@2004
+      MYSQL_DATABASE: cargotrack
+      MYSQL_USER: i4104
+      MYSQL_PASSWORD: I4104@2004
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - cargotrack
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "888:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    depends_on:
+      - db
+    networks:
+      - cargotrack
+
+networks:
+  cargotrack:
+
+volumes:
+  db_data:

@@ -1,10 +1,13 @@
 import { Sequelize } from 'sequelize'
 
-const env = process.env.NODE_ENV || 'development'
-const config = require('../config/database.ts')[env]
+const config = require('../database.ts')['development']
 
-const sequelize = config.url
-	? new Sequelize(config.url, config)
-	: new Sequelize(config.database, config.username, config.password, config)
+let sequelize: Sequelize;
+
+if (config.url) {
+	sequelize = new Sequelize(config.url, config)
+} else {
+	sequelize = new Sequelize(config.database, config.username, config.password, config)
+}
 
 export { Sequelize, sequelize }

@@ -1,10 +1,15 @@
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    roots: ['<rootDir>/src'],
-    testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+    roots: ['<rootDir>/tests'], 
+    testMatch: ['**/tests/**/*.ts', '**/?(*.)+(spec|test).ts'],
     transform: {
         '^.+\\.ts$': 'ts-jest',
+    },
+    moduleNameMapper: {
+        "^@src/(.*)$": "<rootDir>/src/$1",
+        "^@interface/(.*)$": "<rootDir>/interfaces/$1",
+        "^@configs/(.*)$": "<rootDir>/src/configs/$1"
     },
     moduleFileExtensions: ['ts', 'js', 'json', 'node'],
     collectCoverage: true,
@@ -12,6 +17,6 @@ module.exports = {
     coveragePathIgnorePatterns: [
         '/node_modules/',
         '/dist/',
-        '/__tests__/'
+        '/__tests__/',
     ]
-}; 
+};
