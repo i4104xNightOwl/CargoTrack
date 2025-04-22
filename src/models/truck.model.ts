@@ -1,4 +1,5 @@
 import { ITruck, TruckStatus } from "@interface/models/truck.model";
+import TruckService from '../services/truck.service';
 
 export default class Truck implements ITruck {
     id: number;
@@ -7,8 +8,11 @@ export default class Truck implements ITruck {
     createdAt: Date;
     updatedAt: Date;
 
-    changeStatus(status: TruckStatus): Promise<ITruck> {
-        throw new Error('Method not implemented.');
+    async changeStatus(status: TruckStatus): Promise<ITruck> {
+        const truckService = new TruckService();
+        this.status = status;
+        await truckService.update(this);
+        return this;
     }
 }
 
