@@ -19,8 +19,8 @@ describe("Kiểm tra TruckModel", () => {
     it("Kiểm tra changeStatus", async () => {
         const truck = TruckBuilder.new()
             .setLicensePlate("licensePlate")
-            .setStatus(TruckStatus.NotUsed);
-
+            .setStatus(TruckStatus.NotUsed).build()
+            
         const truckService = new TruckService();
         const createdTruck = await truckService.create(truck);
 
