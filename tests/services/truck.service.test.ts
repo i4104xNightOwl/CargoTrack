@@ -38,9 +38,9 @@ describe("Kiểm tra TruckService", () => {
         const truckService = new TruckService();
         const createdTruck = await truckService.create(truck);
 
-        const getTruck = truckService.getById(createdTruck.id);
+        const getTruck = await truckService.getById(createdTruck.id);
 
-        expect(getTruck).toEqual(createdTruck);
+        expect(nomalizeDate(getTruck)).toEqual(nomalizeDate(createdTruck));
     });
 
     it("Kiểm tra create", async () => {
@@ -83,8 +83,8 @@ describe("Kiểm tra TruckService", () => {
 
         await truckService.delete(createdTruck);
 
-        const getTruck = await truckService.getById(createdTruck.id);
+        const getTruck = await truckService.get();
 
-        expect(getTruck).toBeNull();
+        expect(getTruck.length).toEqual(0);
     });
 })
