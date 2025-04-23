@@ -9,4 +9,3 @@ export default class App extends BaseApp {
         this.server.close();
     }
 }
-    

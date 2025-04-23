@@ -19,7 +19,6 @@ type ErrorResponse = Response<any, { err: string }, number>;
 
 export interface IView {
     url: string;
-    view: string;
     middleware: RequestHandler | undefined;
 
     /**
