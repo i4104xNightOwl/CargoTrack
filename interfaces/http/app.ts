@@ -21,6 +21,11 @@ export default abstract class BaseApp {
 
         this.app.engine('hbs', engine({
             extname: '.hbs',
+            helpers: {
+                eq: function(arg1: any, arg2: any, options: any) {
+                    return (arg1 === arg2) ? options.fn(this) : (options.inverse ? options.inverse(this) : '');
+                }
+            }
         }));
         this.app.set('view engine', 'hbs');
         this.app.set('views', path.join(__dirname, '../../src/views'));

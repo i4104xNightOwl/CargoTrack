@@ -19,19 +19,29 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="form-label">Tên tài xế</label>
-                                        <input type="text" class="form-control" id="driverName" placeholder="Nhập tên tài xế">
+                                        <select class="form-select" id="driverName" required>
+                                            <option value="">Chọn tài xế</option>
+                                            {{#each drivers}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                            {{/each}}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="form-label">Biển số xe</label>
-                                        <input type="text" class="form-control" id="licensePlate" placeholder="XXX-XXXXX">
+                                        <select class="form-select" id="licensePlate" required>
+                                            <option value="">Chọn biển số xe</option>
+                                            {{#each vehicles}}
+                                            <option value="{{this.id}}">{{this.licensePlate}}</option>
+                                            {{/each}}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="form-label">Loại Hàng Hóa</label>
-                                        <input type="text" class="form-control" id="cargoType" placeholder="Đồng lạnh">
+                                        <input type="text" class="form-control" id="cargoType" placeholder="Nhập loại hàng hóa" required>
                                     </div>
                                 </div>
                             </div>
@@ -41,16 +51,23 @@
                                 <div class="col-md-6">
                                     <h6 class="mb-3">Chi phí ban đầu</h6>
                                     <div class="form-group mb-3">
+                                        <label class="form-label">Chi phí ban đầu</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control currency-input" id="initialCost" placeholder="0">
+                                            <span class="input-group-text">VND</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label class="form-label">Cước hàng hóa</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="cargoCost" placeholder="0">
+                                            <input type="text" class="form-control currency-input" id="cargoCost" placeholder="0">
                                             <span class="input-group-text">VND</span>
                                         </div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label class="form-label">Cước đi đường</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="travelCost" placeholder="0">
+                                            <input type="text" class="form-control currency-input" id="roadCost" placeholder="0">
                                             <span class="input-group-text">VND</span>
                                         </div>
                                     </div>
@@ -65,21 +82,21 @@
                                     <div class="form-group mb-3">
                                         <label class="form-label">Cước bốc hàng lên</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="loadingCost" placeholder="0">
+                                            <input type="text" class="form-control currency-input" id="loadingCost" placeholder="0">
                                             <span class="input-group-text">VND</span>
                                         </div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label class="form-label">Cước hạ hàng xuống</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="unloadingCost" placeholder="0">
+                                            <input type="text" class="form-control currency-input" id="unloadingCost" placeholder="0">
                                             <span class="input-group-text">VND</span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Cước tài xế</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="driverCost" placeholder="0">
+                                            <input type="text" class="form-control currency-input" id="driverCost" placeholder="0">
                                             <span class="input-group-text">VND</span>
                                         </div>
                                     </div>
@@ -105,7 +122,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="number" class="form-control" placeholder="0">
+                                                        <input type="text" class="form-control currency-input" placeholder="0">
                                                         <span class="input-group-text">VND</span>
                                                     </div>
                                                 </td>
@@ -139,7 +156,7 @@
                                             <tr>
                                                 <td>
                                                     <div class="input-group">
-                                                        <input type="number" class="form-control" placeholder="0">
+                                                        <input type="text" class="form-control currency-input" placeholder="0">
                                                         <span class="input-group-text">VND</span>
                                                     </div>
                                                 </td>
@@ -173,46 +190,76 @@
 
     <!-- JavaScript for dynamic rows -->
     <script>
-        document.getElementById('addFuelCost').addEventListener('click', function() {
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>
-                    <input type="text" class="form-control" placeholder="Địa chỉ đổ dầu/xăng">
-                </td>
-                <td>
-                    <div class="input-group">
-                        <input type="number" class="form-control" placeholder="0">
-                        <span class="input-group-text">VND</span>
-                    </div>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            document.querySelector('#fuelCostsTable tbody').appendChild(newRow);
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Format currency function
+            function formatCurrency(input) {
+                // Remove non-digit characters
+                let value = input.value.replace(/[^\d]/g, '');
+                
+                // Format number with commas
+                if (value.length > 0) {
+                    value = parseInt(value).toLocaleString('vi-VN');
+                }
+                
+                input.value = value;
+            }
 
-        document.getElementById('addAdditionalCost').addEventListener('click', function() {
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>
-                    <div class="input-group">
-                        <input type="number" class="form-control" placeholder="0">
-                        <span class="input-group-text">VND</span>
-                    </div>
-                </td>
-                <td>
-                    <input type="text" class="form-control" placeholder="Nhập lý do phát sinh">
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            document.querySelector('#additionalCostsTable tbody').appendChild(newRow);
+            // Add currency formatting to all currency inputs
+            document.querySelectorAll('.currency-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    formatCurrency(this);
+                });
+            });
+
+            document.getElementById('addFuelCost').addEventListener('click', function() {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>
+                        <input type="text" class="form-control" placeholder="Địa chỉ đổ dầu/xăng">
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control currency-input" placeholder="0">
+                            <span class="input-group-text">VND</span>
+                        </div>
+                    </td>
+                    <td style="text-align: center;">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                document.querySelector('#fuelCostsTable tbody').appendChild(newRow);
+                // Add currency formatting to new input
+                newRow.querySelector('.currency-input').addEventListener('input', function() {
+                    formatCurrency(this);
+                });
+            });
+
+            document.getElementById('addAdditionalCost').addEventListener('click', function() {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>
+                        <div class="input-group">
+                            <input type="text" class="form-control currency-input" placeholder="0">
+                            <span class="input-group-text">VND</span>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Nhập lý do phát sinh">
+                    </td>
+                    <td style="text-align: center;">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                document.querySelector('#additionalCostsTable tbody').appendChild(newRow);
+                // Add currency formatting to new input
+                newRow.querySelector('.currency-input').addEventListener('input', function() {
+                    formatCurrency(this);
+                });
+            });
         });
     </script>
 {{/layouts/main}} 
