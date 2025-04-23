@@ -1,0 +1,120 @@
+{{#> layouts/main}}
+<div class="flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h4 class="mb-2">Ngày mới tốt lành! {{username}} 🎉</h4>
+                            <p class="mb-0">Hãy bắt đầu một ngày mới tràn đầy năng lượng nào</p>
+                        </div>
+                        <div class="app-brand-logo">
+                            <img src="/assets/img/truck.png" alt="truck" width="120">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Date Filter -->
+                    <div class="mb-4">
+                        <div class="col-12">
+                            <h5 class="card-title">Lọc dữ liệu theo ngày</h5>
+                            <div class="row g-3">
+                                <div class="col-md-5">
+                                    <input type="date" class="form-control" id="startDate">
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <span class="align-middle">tới</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tổng thu</h5>
+                                    <h2 class="card-text text-primary">0đ</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tổng chi</h5>
+                                    <h2 class="card-text text-danger">0đ</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Chưa thanh toán</h5>
+                                    <h2 class="card-text text-warning">0đ</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cargo List Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Danh sách hàng lên</h5>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>TÀI XẾ</th>
+                                        <th>BIỂN SỐ XE</th>
+                                        <th>NGÀY THỰC HIỆN</th>
+                                        <th>LOẠI HÀNG HÓA</th>
+                                        <th>SỐ NGƯỜI THUÊ</th>
+                                        <th>TỔNG TIỀN THUÊ</th>
+                                        <th>XEM CHI TIẾT</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    {{#each cargoList}}
+                                    <tr>
+                                        <td>{{this.id}}</td>
+                                        <td>{{this.driver}}</td>
+                                        <td>{{this.licensePlate}}</td>
+                                        <td>{{this.date}}</td>
+                                        <td>{{this.cargoType}}</td>
+                                        <td>{{this.workerCount}}</td>
+                                        <td>{{this.totalAmount}}</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="viewDetails('{{this.id}}')">
+                                                    <i class="bx bx-show"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="deleteCargo('{{this.id}}')">
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/layouts/main}}

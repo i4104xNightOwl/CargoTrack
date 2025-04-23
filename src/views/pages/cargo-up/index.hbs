@@ -1,0 +1,350 @@
+{{#> layouts/main}}
+    <div class="flex-grow-1 container-p-y">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title text-primary mb-0">HÀNG LÊN</h5>
+            </div>
+            <div class="card-body">
+                <form id="cargoUpForm">
+                    <!-- Thông tin cơ bản -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Ngày tháng năm</label>
+                                <input type="date" class="form-control" id="date" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Tên tài xế</label>
+                                <select class="form-select" id="driverName" required>
+                                    <option value="">Chọn tài xế</option>
+                                    {{#each drivers}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Biển số xe</label>
+                                <select class="form-select" id="licensePlate" required>
+                                    <option value="">Chọn biển số xe</option>
+                                    {{#each vehicles}}
+                                    <option value="{{this.id}}">{{this.licensePlate}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Loại Hàng Hóa</label>
+                                <input type="text" class="form-control" id="cargoType" placeholder="Nhập loại hàng hóa" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chi phí ban đầu -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Chi phí ban đầu</h6>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Chi phí ban đầu</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control currency-input" id="initialCost" placeholder="0">
+                                    <span class="input-group-text">VND</span>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Cước hàng hóa</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control currency-input" id="cargoCost" placeholder="0">
+                                    <span class="input-group-text">VND</span>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label">Cước đi đường</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control currency-input" id="roadCost" placeholder="0">
+                                    <span class="input-group-text">VND</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea class="form-control" id="note" rows="2" placeholder="Ghi chú ngắn"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <h6>Cước bốc hàng lên</h6>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control currency-input" id="loadingCost" placeholder="0">
+                                        <span class="input-group-text">VND</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <h6>Cước hạ hàng xuống</h6>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control currency-input" id="unloadingCost" placeholder="0">
+                                        <span class="input-group-text">VND</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h6>Cước tài xế</h6>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control currency-input" id="driverCost" placeholder="0">
+                                        <span class="input-group-text">VND</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cước xăng dầu -->
+                    <div class="mb-4">
+                        <h6>Cước xăng dầu</h6>
+                        <div class="row" id="fuelCostContainer">
+                            <div class="col-md-12">
+                                <div class="row mb-2 fuel-cost-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Địa chỉ đổ dầu/xăng">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control currency-input" placeholder="0">
+                                            <span class="input-group-text">VND</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-danger btn-sm remove-fuel-cost">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" id="addFuelCost">
+                            <i class="bx bx-plus"></i> Add
+                        </button>
+                    </div>
+
+                    <!-- Người thuê -->
+                    <div class="mb-4">
+                        <h6>Người thuê</h6>
+                        <div class="row" id="renterContainer">
+                            <div class="col-md-12">
+                                <div class="row mb-2 renter-row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <select class="form-select" placeholder="Chọn người thuê">
+                                                <option value="">Chọn người thuê</option>
+                                                {{#each customers}}
+                                                <option value="{{this.id}}">{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Nhập loại hàng hóa">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control currency-input" placeholder="0">
+                                            <span class="input-group-text">VND</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control" placeholder="Định lượng">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" id="addRenter">
+                            <i class="bx bx-plus"></i> Thêm hàng hóa
+                        </button>
+                    </div>
+
+                    <!-- Chi phí phát sinh -->
+                    <div class="mb-4">
+                        <h6>Chi phí phát sinh (Nếu có)</h6>
+                        <div class="row" id="additionalCostContainer">
+                            <div class="col-md-12">
+                                <div class="row mb-2 additional-cost-row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control currency-input" placeholder="0">
+                                            <span class="input-group-text">VND</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" placeholder="Nhập lý do phát sinh">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-danger btn-sm remove-additional-cost">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" id="addAdditionalCost">
+                            <i class="bx bx-plus"></i> Add
+                        </button>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function generateId() {
+                return Math.random().toString(36).substr(2, 9);
+            }
+
+            function createFuelRow() {
+                return `
+                    <div class="row mb-2 fuel-cost-row" id="fuel-${generateId()}">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Địa chỉ đổ dầu/xăng">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control currency-input" placeholder="0">
+                                <span class="input-group-text">VND</span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function createRenterRow() {
+                return `
+                    <div class="row mb-2 renter-row" id="renter-${generateId()}">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select class="form-select" placeholder="Chọn người thuê">
+                                    <option value="">Chọn người thuê</option>
+                                    {{#each customers}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Nhập loại hàng hóa">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control currency-input" placeholder="0">
+                                <span class="input-group-text">VND</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" placeholder="Định lượng">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function createAdditionalCostRow() {
+                return `
+                    <div class="row mb-2 additional-cost-row" id="additional-${generateId()}">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control currency-input" placeholder="0">
+                                <span class="input-group-text">VND</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" placeholder="Nhập lý do phát sinh">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Hàm xóa dòng
+            window.removeRow = function(button) {
+                const row = button.closest('.row');
+                const container = row.parentElement;
+                if (container.children.length > 1) {
+                    row.remove();
+                }
+            }
+
+            // Thêm dòng xăng dầu
+            document.getElementById('addFuelCost').addEventListener('click', function() {
+                const container = document.getElementById('fuelCostContainer').querySelector('.col-md-12');
+                container.insertAdjacentHTML('beforeend', createFuelRow());
+                // Add currency formatting to new inputs
+                container.querySelectorAll('.currency-input').forEach(input => {
+                    input.addEventListener('input', function() {
+                        formatCurrency(this);
+                    });
+                });
+            });
+
+            // Thêm dòng người thuê
+            document.getElementById('addRenter').addEventListener('click', function() {
+                const container = document.getElementById('renterContainer').querySelector('.col-md-12');
+                container.insertAdjacentHTML('beforeend', createRenterRow());
+                // Add currency formatting to new inputs
+                container.querySelectorAll('.currency-input').forEach(input => {
+                    input.addEventListener('input', function() {
+                        formatCurrency(this);
+                    });
+                });
+            });
+
+            // Thêm dòng chi phí phát sinh
+            document.getElementById('addAdditionalCost').addEventListener('click', function() {
+                const container = document.getElementById('additionalCostContainer').querySelector('.col-md-12');
+                container.insertAdjacentHTML('beforeend', createAdditionalCostRow());
+                // Add currency formatting to new inputs
+                container.querySelectorAll('.currency-input').forEach(input => {
+                    input.addEventListener('input', function() {
+                        formatCurrency(this);
+                    });
+                });
+            });
+
+            document.getElementById('cargoUpForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+{{/layouts/main}}
