@@ -1,11 +1,18 @@
-import BaseApp from '../interfaces/http/app';
+import App from "./http/app";
+import homeRouter from "./views/pages/home";
+import loginRouter from "./views/pages/login";
+import employeeRouter from "./views/pages/employee";
+import cargoDownRouter from "./views/pages/cargo-down";
 
+const app = new App();
 
-export default class App extends BaseApp {
-    constructor() { super(); }
+app.registerView(homeRouter.index());
+app.registerView(loginRouter.index());
+app.registerView(employeeRouter.index());
+app.registerView(cargoDownRouter.index());
 
-    async stop(): Promise<void> {
-        console.log("Stopping server...");
-        this.server.close();
-    }
-}
+(async () => {
+    app.listen(3003);
+    await app.start();
+})();
+
