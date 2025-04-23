@@ -219,6 +219,24 @@
                     }
                 });
             });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                function formatCurrency(input) {
+                    let value = input.value.replace(/[^\d]/g, '');
+
+                    if (value.length > 0) {
+                        value = parseInt(value).toLocaleString('vi-VN');
+                    }
+
+                    input.value = value;
+                }
+
+                document.querySelectorAll('.currency-input').forEach(input => {
+                    input.addEventListener('input', function () {
+                        formatCurrency(this);
+                    });
+                });
+            });
         </script>
     </body>
 </html> 
