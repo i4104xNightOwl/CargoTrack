@@ -1,6 +1,6 @@
 import { IView } from "@interface/http/handlers";
 
-class HomeRouter {
+export default new class HomeRouter {
 
     index(): IView {
         const route: IView = {
@@ -14,5 +14,3 @@ class HomeRouter {
         return route;
     }
 }
-
-export default new HomeRouter();

@@ -1,6 +1,6 @@
 import { IView } from "@interface/http/handlers";
 
-class LoginRouter {
+export default new class LoginRouter {
 
     index​​(): IView {
         const route: IView = {
@@ -14,5 +14,3 @@ class LoginRouter {
         return route;
     }
 }
-
-export default new LoginRouter();

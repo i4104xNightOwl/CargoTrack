@@ -1,6 +1,6 @@
 import { IView } from "@interface/http/handlers";
 
-class EmployeeRouter {
+export default new class EmployeeRouter {
 
     index() { 
         const route: IView = {
@@ -15,5 +15,3 @@ class EmployeeRouter {
     }
 
 }
-
-export default new EmployeeRouter();

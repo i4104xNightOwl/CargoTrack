@@ -1,6 +1,6 @@
 import { IView } from "@interface/http/handlers";
 
-class CargoUpRouter {
+export default new class CargoUpRouter {
     index(): IView {
         const route: IView = {
             url: "/cargo-up",
@@ -13,5 +13,3 @@ class CargoUpRouter {
         return route;
     }
 }
-
-export default new CargoUpRouter();
