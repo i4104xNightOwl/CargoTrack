@@ -1,7 +1,7 @@
 import { ICargo } from "@interfaces/models/cargo.model";
 import { IEmployee } from "@interfaces/models/employee.model";
 import { ICustomer } from "@interfaces/models/customer.model";
-import { ITruck } from "@interfaces/models/truck.model";
+import { ITruck, TruckStatus } from "@interfaces/models/truck.model";
 import { CargoBuilder } from "@src/models/cargo.model";
 import { CargoService } from "@src/services/cargo.service";
 import { sequelize } from "@src/services/mysql/models";
@@ -27,7 +27,7 @@ describe('Kiểm tra CargoService', () => {
         const driverService = new EmployeeService();
         const customerService = new CustomerService();
 
-        truck = await truckService.create(TruckBuilder.new().build());
+        truck = await truckService.create(TruckBuilder.new().setLicensePlate("1234567890").setStatus(TruckStatus.NotUsed).build());
         driver = await driverService.create(EmployeeBuilder.new().build());
         customer = await customerService.create(CustomerBuilder.new().build());
     })
