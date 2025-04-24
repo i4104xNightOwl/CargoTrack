@@ -4,14 +4,11 @@ import { IEmployee } from "@interfaces/models/employee.model";
 import { ITruck } from "@interfaces/models/truck.model";
 
 export default class Cargo implements ICargo {
+    id: number;
+    type: string;
     truck: ITruck;
     driver: IEmployee;
     customer: ICustomer;
-    id: number;
-    type: string;
-    truckId: number;
-    driverId: number;
-    customerId: number;
     cargoItems: CargoItem[];
     initialCost: number;
     cargoCost: number;
@@ -49,18 +46,18 @@ export class CargoBuilder {
         return this;
     }
 
-    public setTruckId(truckId: number) {
-        this.cargo.truckId = truckId;
+    public setTruck(truck: ITruck) {
+        this.cargo.truck = truck;
         return this;
     }
 
-    public setDriverId(driverId: number) {
-        this.cargo.driverId = driverId;
+    public setDriver(driver: IEmployee) {
+        this.cargo.driver = driver;
         return this;
     }
     
-    public setCustomerId(customerId: number) {
-        this.cargo.customerId = customerId;
+    public setCustomer(customer: ICustomer) {
+        this.cargo.customer = customer;
         return this;
     }
 
