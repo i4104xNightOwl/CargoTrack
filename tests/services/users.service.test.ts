@@ -1,8 +1,8 @@
-import { sequelize } from '../../src/configs/models';
-import { IUsers, UserStatus } from '../../interfaces/models/users.model';
-import UsersService from '../../src/services/users.service';
+import { sequelize } from '@src/services/mysql/models';
+import { IUsers, UserStatus } from '@interfaces/models/users.model';
+import UsersService from '@src/services/users.service';
 import nomalizeDate from '../../utils/dateUtils';
-import { UsersBuilder } from '../../src/models/users.model';
+import { UsersBuilder } from '@src/models/users.model';
 
 describe("Kiểm tra UserService", () => {
     beforeAll(async () => {
@@ -10,6 +10,7 @@ describe("Kiểm tra UserService", () => {
     });
 
     beforeEach(async () => {
+        await sequelize.drop();
         await sequelize.sync({ force: true });
     })
     

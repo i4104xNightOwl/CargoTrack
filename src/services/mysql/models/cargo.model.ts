@@ -185,3 +185,20 @@ CargoDB.belongsTo(CustomerDB, {
     foreignKey: 'customerId',
     onDelete: 'CASCADE'
 })
+
+
+EmployeeDB.hasMany(CargoDB, {
+    foreignKey: 'driverId',
+    onDelete: 'CASCADE'
+})
+
+
+TruckDB.hasMany(CargoDB, {
+    foreignKey: 'truckId',
+    onDelete: 'CASCADE'
+})
+
+CustomerDB.hasMany(CargoDB, {
+    foreignKey: 'customerId',
+    onDelete: 'CASCADE'
+})

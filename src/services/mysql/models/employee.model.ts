@@ -1,6 +1,5 @@
 import { DataTypes, Model, ModelScopeOptions, ModelValidateOptions, Optional } from 'sequelize'
 import { sequelize } from '.'
-import { CargoDB } from './cargo.model'
 
 export interface EmployeeDBAttributes {
     id: number
@@ -100,9 +99,4 @@ EmployeeDB.init({
     createdAt: true,
     scopes: EmployeeDB.scopes,
     validate: EmployeeDB.validations,
-})
-
-EmployeeDB.hasMany(CargoDB, {
-    foreignKey: 'driverId',
-    onDelete: 'CASCADE'
 })

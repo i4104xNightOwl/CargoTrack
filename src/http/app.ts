@@ -1,4 +1,4 @@
-import BaseApp from '@interface/http/app';
+import BaseApp from '@interfaces/http/app';
 
 
 export default class App extends BaseApp {

@@ -1,5 +1,5 @@
-import { ITruck, TruckStatus } from "@interface/models/truck.model";
-import TruckService from '../services/truck.service';
+import { ITruck, TruckStatus } from "@interfaces/models/truck.model";
+import TruckService from '@src/services/truck.service';
 
 export default class Truck implements ITruck {
     id: number;

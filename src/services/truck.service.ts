@@ -1,6 +1,6 @@
-import { ITruck } from '@interface/models/truck.model';
-import { ITruckService } from '@interface/services/truck.service';
-import { TruckDB } from '@src/configs/models/truck.model';
+import { ITruck } from '@interfaces/models/truck.model';
+import { ITruckService } from '@interfaces/services/truck.service';
+import { TruckDB } from '@src/services/mysql/models/truck.model';
 import Truck from '@src/models/truck.model';
 import { plainToInstance } from 'class-transformer';
 

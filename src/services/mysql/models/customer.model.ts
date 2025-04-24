@@ -1,6 +1,5 @@
 import { DataTypes, Model, ModelScopeOptions, ModelValidateOptions, Optional } from 'sequelize'
 import { sequelize } from '.'
-import { CargoDB } from './cargo.model'
 
 export interface CustomerDBAttributes {
     id: number
@@ -97,9 +96,4 @@ CustomerDB.init({
     createdAt: true,
     scopes: CustomerDB.scopes,
     validate: CustomerDB.validations,
-})
-
-CustomerDB.hasMany(CargoDB, {
-    foreignKey: 'customerId',
-    onDelete: 'CASCADE'
 })

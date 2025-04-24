@@ -1,7 +1,7 @@
-import { TruckStatus } from "../../interfaces/models/truck.model";
-import { sequelize } from "../../src/configs/models";
-import { TruckBuilder } from "../../src/models/truck.model";
-import TruckService from "../../src/services/truck.service";
+import { TruckStatus } from "@interfaces/models/truck.model";
+import { TruckBuilder } from "@src/models/truck.model";
+import { sequelize } from '@src/services/mysql/models';
+import TruckService from "@src/services/truck.service";
 import nomalizeDate from "../../utils/dateUtils";
 
 describe("Kiểm tra TruckService", () => {
@@ -10,6 +10,7 @@ describe("Kiểm tra TruckService", () => {
     })
 
     beforeEach(async () => {
+        await sequelize.drop();
         await sequelize.sync({ force: true });
     })
     

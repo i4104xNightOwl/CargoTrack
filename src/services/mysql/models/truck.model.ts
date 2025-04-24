@@ -1,6 +1,6 @@
 import { DataTypes, Model, ModelScopeOptions, ModelValidateOptions, Optional } from 'sequelize'
 import { sequelize } from '.'
-import { TruckStatus } from '../../../interfaces/models/truck.model';
+import { TruckStatus } from '@interfaces/models/truck.model';
 import { CargoDB } from './cargo.model'
 
 // Định nghĩa các attributes cho model
@@ -74,9 +74,5 @@ TruckDB.init({
     validate: TruckDB.validations,
 })
 
-TruckDB.hasMany(CargoDB, {
-    foreignKey: 'truckId',
-    onDelete: 'CASCADE'
-})
 
 

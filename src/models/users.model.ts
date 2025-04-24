@@ -1,4 +1,4 @@
-import { IUsers, UserStatus } from "@interface/models/users.model";
+import { IUsers, UserStatus } from "@interfaces/models/users.model";
 import UsersService from "@src/services/users.service";
 
 export default class Users implements IUsers {
