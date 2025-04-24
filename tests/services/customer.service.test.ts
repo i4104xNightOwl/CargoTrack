@@ -1,6 +1,7 @@
 import CustomerService from "@src/services/customer.service";
 import { sequelize } from "@src/services/mysql/models";
 import { CustomerBuilder } from "@src/models/customer.model";
+import nomalizeDate from "../../utils/dateUtils";
 
 describe("Kiểm tra CustomerService", () => {
     beforeAll(async () => {
@@ -22,10 +23,13 @@ describe("Kiểm tra CustomerService", () => {
             .setEmail("john.doe@example.com")
             .setPhone("1234567890").setStatus(1)
             .build();
+        
         const customerService = new CustomerService();
-        await customerService.create(customer);
+
+        const createdCustomer = await customerService.create(customer);
         const customers = await customerService.get();
-        expect(customers).toEqual([customer]);
+
+        expect(nomalizeDate(customers)).toEqual([nomalizeDate(createdCustomer)]);
     });
 
     it("Kiểm tra getById", async () => {
@@ -35,10 +39,10 @@ describe("Kiểm tra CustomerService", () => {
             .setPhone("1234567890").setStatus(1)
             .build();
         const customerService = new CustomerService();
-        await customerService.create(customer);
-        const customerById = await customerService.getById(customer.id);
+        const createdCustomer = await customerService.create(customer);
+        const customerById = await customerService.getById(createdCustomer.id);
 
-        expect(customerById).toEqual(customer);
+        expect(nomalizeDate(customerById)).toEqual(nomalizeDate(createdCustomer));
     });
 
     it("Kiểm tra create", async () => {
@@ -48,9 +52,9 @@ describe("Kiểm tra CustomerService", () => {
             .setPhone("1234567890").setStatus(1)
             .build();
         const customerService = new CustomerService();
-        await customerService.create(customer);
-        const createdCustomer = await customerService.getById(customer.id);
-        expect(createdCustomer).toEqual(customer);
+        const createdCustomer = await customerService.create(customer);
+        const customers = await customerService.get();
+        expect(nomalizeDate(customers)).toEqual([nomalizeDate(createdCustomer)]);
     });
 
     it("Kiểm tra update", async() => {
@@ -60,23 +64,30 @@ describe("Kiểm tra CustomerService", () => {
             .setPhone("1234567890").setStatus(1)
             .build();
         const customerService = new CustomerService();
-        await customerService.create(customer);
-        customer.name = "Jane Doe";
-        await customerService.update(customer);
-        const updatedCustomer = await customerService.getById(customer.id);
-        expect(updatedCustomer).toEqual(customer);
+        const createdCustomer = await customerService.create(customer);
+        
+        createdCustomer.name = "Jane Doe";
+        createdCustomer.email = "jane.doe@example.com";
+        const updatedCustomer = await customerService.update(createdCustomer);
+        const customerById = await customerService.getById(createdCustomer.id);
+
+        expect(nomalizeDate(customerById)).toEqual(nomalizeDate(updatedCustomer));
     });
 
     it("Kiểm tra delete", async () => {
+        const customerService = new CustomerService();
         const customer = CustomerBuilder.new()
             .setName("John Doe")
             .setEmail("john.doe@example.com")
             .setPhone("1234567890").setStatus(1)
             .build();
-        const customerService = new CustomerService();
-        await customerService.create(customer);
-        await customerService.delete(customer);
+
+        const createdCustomer = await customerService.create(customer);
+        const isDeleted = await customerService.delete(createdCustomer);
+
         const customers = await customerService.get();
-        expect(customers).toEqual([]);
+
+        expect(isDeleted).toBe(true);
+        expect(customers.length).toBe(0);
     });
 })
