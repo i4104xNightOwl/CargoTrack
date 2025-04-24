@@ -28,16 +28,18 @@ export interface CargoDBAttributes {
     driverId: number
     customerId: number
     cargoItems: CargoItem[]
-    initialCost: number
-    cargoCost: number
-    loadingCost: number
-    unloadingCost: number
-    transportCost: number
-    fuelCosts: FuelCost[]
-    additionalCosts: AdditionalCost[]
-    specialInstructions: string
-    createdAt: Date
-    updatedAt: Date
+    initialCost: number; // Chi phí ban đầu
+    cargoCost: number; // Chi phí hàng hóa
+    loadingCost: number; // Chi phí bốc hàng
+    unloadingCost: number; // Chi phí tháo hàng
+    transportCost: number; // Chi phí vận chuyển
+    employeeCost: number; // Chi phí nhân viên
+    fuelCosts: FuelCost[]; // Chi phí xăng dầu
+    additionalCosts: AdditionalCost[]; // Chi phí phụ
+    paymentDeposit: number; // Tiền cọc
+    note: string; // Ghi chú
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface CargoDBCreationAttributes extends Optional<CargoDBAttributes, 'id'> { }
@@ -54,9 +56,11 @@ export class CargoDB extends Model<CargoDBAttributes, CargoDBCreationAttributes>
     loadingCost: number
     unloadingCost: number
     transportCost: number
+    employeeCost: number
     fuelCosts: FuelCost[]
     additionalCosts: AdditionalCost[]
-    specialInstructions: string
+    paymentDeposit: number
+    note: string
     createdAt: Date
     updatedAt: Date
 
@@ -137,6 +141,11 @@ CargoDB.init({
         type: DataTypes.FLOAT,
         defaultValue: 0
     },
+    employeeCost: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0
+    },
     fuelCosts: {
         allowNull: false,
         type: DataTypes.JSON,
@@ -147,9 +156,15 @@ CargoDB.init({
         type: DataTypes.JSON,
         defaultValue: []
     },
-    specialInstructions: {
-        allowNull: true,
-        type: DataTypes.TEXT
+    paymentDeposit: {
+        allowNull: false,
+        type: DataTypes.FLOAT,
+        defaultValue: 0
+    },
+    note: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        defaultValue: ''
     },
     createdAt: {
         allowNull: true,
