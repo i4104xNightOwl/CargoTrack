@@ -6,7 +6,6 @@ export interface CustomerDBAttributes {
     name: string
     email: string
     phone: string
-    address: string
     status: number
     createdAt: Date
     updatedAt: Date
@@ -19,7 +18,6 @@ export class CustomerDB extends Model<CustomerDBAttributes, CustomerDBCreationAt
     name: string
     email: string
     phone: string
-    address: string
     status: number
     createdAt: Date
     updatedAt: Date
@@ -66,10 +64,6 @@ CustomerDB.init({
         allowNull: false,
         type: DataTypes.STRING,
         unique: true
-    },
-    address: {
-        allowNull: false,
-        type: DataTypes.STRING
     },
     status: {
         allowNull: false,
