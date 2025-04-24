@@ -8,7 +8,7 @@ module.exports = {
     },
     moduleNameMapper: {
         "^@src/(.*)$": "<rootDir>/src/$1",
-        "^@interface/(.*)$": "<rootDir>/interfaces/$1",
+        "^@interfaces/(.*)$": "<rootDir>/interfaces/$1",
         "^@configs/(.*)$": "<rootDir>/src/configs/$1"
     },
     moduleFileExtensions: ['ts', 'js', 'json', 'node'],

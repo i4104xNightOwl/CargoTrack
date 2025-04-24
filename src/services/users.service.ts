@@ -1,6 +1,6 @@
-import { IUsers } from 'interfaces/models/users.model';
-import { IUsersService } from '../../interfaces/services/users.service';
-import { UsersDB } from '@configs/models/users.model';
+import { IUsers } from '@interfaces/models/users.model';
+import { IUsersService } from '@interfaces/services/users.service';
+import { UsersDB } from '@src/services/mysql/models/users.model';
 import { plainToInstance } from 'class-transformer';
 import Users from '@src/models/users.model';
 

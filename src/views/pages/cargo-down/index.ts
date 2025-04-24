@@ -1,4 +1,4 @@
-import { IView } from "@interface/http/handlers";
+import { IView } from "@interfaces/http/handlers";
 
 export default new class CargoDownRouter {
     index(): IView {

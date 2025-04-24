@@ -1,8 +1,8 @@
-import { IView } from "@interface/http/handlers";
+import { IView } from "@interfaces/http/handlers";
 
 export default new class LoginRouter {
 
-    index​​(): IView {
+    index(): IView {
         const route: IView = {
             url: "/login",
             middleware: undefined,

@@ -1,6 +1,7 @@
 import { DataTypes, Model, ModelScopeOptions, ModelValidateOptions, Optional } from 'sequelize'
 import { sequelize } from '.'
-import { TruckStatus } from '../../../interfaces/models/truck.model';
+import { TruckStatus } from '@interfaces/models/truck.model';
+import { CargoDB } from './cargo.model'
 
 // Định nghĩa các attributes cho model
 export interface TruckDBAttributes {
@@ -22,13 +23,15 @@ export class TruckDB extends Model<TruckDBAttributes, TruckDBCreationAttributes>
     updatedAt: Date
     
     static readonly scopes: ModelScopeOptions = {
-        
+        active: {
+            where: {
+                isActive: true
+            }
+        }
     }
 
     static readonly validations: ModelValidateOptions = {
-        /*
-          nơi khai báo validation
-        */
+        
     }
 }
 
@@ -42,10 +45,14 @@ TruckDB.init({
     licensePlate: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true
     },
     status: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        validate: {
+            isIn: [[0, 1]] // 0: Đang chờ, 1: Đang chuyển hàng
+        }
     },
     createdAt: {
         allowNull: true,
@@ -66,4 +73,6 @@ TruckDB.init({
     scopes: TruckDB.scopes,
     validate: TruckDB.validations,
 })
+
+
 

@@ -1,7 +1,7 @@
-import { TruckStatus } from '../../interfaces/models/truck.model';
-import { sequelize } from '../../src/configs/models';
-import Truck, { TruckBuilder } from '../../src/models/truck.model';
-import TruckService from '../../src/services/truck.service';
+import { sequelize } from '@src/services/mysql/models';
+import { TruckBuilder } from '@src/models/truck.model';
+import TruckService from '@src/services/truck.service';
+import { TruckStatus } from '@interfaces/models/truck.model';
 
 describe("Kiểm tra TruckModel", () => {
     beforeAll(async () => {
@@ -9,6 +9,7 @@ describe("Kiểm tra TruckModel", () => {
     });
     
     beforeEach(async () => {
+        await sequelize.drop();
         await sequelize.sync({ force: true });
     })
     
