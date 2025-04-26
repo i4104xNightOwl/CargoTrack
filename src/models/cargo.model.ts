@@ -3,7 +3,7 @@ import { ICustomer } from "@interfaces/models/customer.model";
 import { IEmployee } from "@interfaces/models/employee.model";
 import { ITruck } from "@interfaces/models/truck.model";
 
-export default class Cargo implements ICargo {
+export class Cargo implements ICargo {
     truck: ITruck;
     driver: IEmployee;
     customer: ICustomer;

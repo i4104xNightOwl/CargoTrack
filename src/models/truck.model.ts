@@ -1,7 +1,7 @@
 import { ITruck, TruckStatus } from "@interfaces/models/truck.model";
-import TruckService from '@src/services/truck.service';
+import { TruckService } from '@src/services/truck.service';
 
-export default class Truck implements ITruck {
+export class Truck implements ITruck {
     id: number;
     licensePlate: string;
     status: number;

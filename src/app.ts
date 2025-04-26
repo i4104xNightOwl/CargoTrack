@@ -1,4 +1,4 @@
-import App from "./http/app";
+import { App } from "./http/app";
 
 import homeRouter from "./views/pages/home";
 import loginRouter from "./views/pages/login";

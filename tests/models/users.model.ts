@@ -1,7 +1,7 @@
 import { IUsers, UserStatus } from "@interfaces/models/users.model";
 import { sequelize } from "@src/services/mysql/models";
 import { UsersBuilder } from '@src/models/users.model';
-import UsersService from "@src/services/users.service";
+import { UsersService } from "@src/services/users.service";
 
 describe("Kiểm tra UsersModel", () => {
     beforeAll(async () => {

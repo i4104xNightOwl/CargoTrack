@@ -1,4 +1,4 @@
-import CustomerService from "@src/services/customer.service";
+import { CustomerService } from "@src/services/customer.service";
 import { sequelize } from "@src/services/mysql/models";
 import { CustomerBuilder } from "@src/models/customer.model";
 import nomalizeDate from "../../utils/dateUtils";

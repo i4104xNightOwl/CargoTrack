@@ -1,6 +1,6 @@
 import { sequelize } from '@src/services/mysql/models';
 import { TruckBuilder } from '@src/models/truck.model';
-import TruckService from '@src/services/truck.service';
+import { TruckService } from '@src/services/truck.service';
 import { TruckStatus } from '@interfaces/models/truck.model';
 
 describe("Kiểm tra TruckModel", () => {

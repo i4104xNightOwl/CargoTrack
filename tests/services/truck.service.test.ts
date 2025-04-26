@@ -1,7 +1,7 @@
 import { TruckStatus } from "@interfaces/models/truck.model";
 import { TruckBuilder } from "@src/models/truck.model";
 import { sequelize } from '@src/services/mysql/models';
-import TruckService from "@src/services/truck.service";
+import { TruckService } from "@src/services/truck.service";
 import nomalizeDate from "../../utils/dateUtils";
 
 describe("Kiểm tra TruckService", () => {

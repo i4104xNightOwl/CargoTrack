@@ -1,6 +1,6 @@
 import { ICustomer } from "@interfaces/models/customer.model";
 
-export default class Customer implements ICustomer {
+export class Customer implements ICustomer {
     id: number;
     name: string;
     email: string;

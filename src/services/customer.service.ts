@@ -1,10 +1,10 @@
 import { ICustomer } from "@interfaces/models/customer.model";
 import { ICustomerService } from "@interfaces/services/customer.service";
-import Customer from "@src/models/customer.model";
+import { Customer } from "@src/models/customer.model";
 import { CustomerDB } from "./mysql/models/customer.model";
 import { plainToInstance } from "class-transformer";
 
-export default class CustomerService implements ICustomerService {
+export class CustomerService implements ICustomerService {
 
     async get(): Promise<ICustomer[]> {
         const customers = (await CustomerDB.findAll()).map(customer => {
