@@ -1,10 +1,10 @@
 import { ITruck } from '@interfaces/models/truck.model';
 import { ITruckService } from '@interfaces/services/truck.service';
 import { TruckDB } from '@src/services/mysql/models/truck.model';
-import Truck from '@src/models/truck.model';
+import { Truck } from '@src/models/truck.model';
 import { plainToInstance } from 'class-transformer';
 
-export default class TruckService implements ITruckService {
+export class TruckService implements ITruckService {
     async get(): Promise<ITruck[]> {
         const trucks = (await TruckDB.findAll()).map((truck: TruckDB) => {
             return plainToInstance(Truck, truck.dataValues);

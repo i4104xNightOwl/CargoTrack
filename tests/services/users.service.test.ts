@@ -1,8 +1,8 @@
 import { sequelize } from '@src/services/mysql/models';
 import { IUsers, UserStatus } from '@interfaces/models/users.model';
-import UsersService from '@src/services/users.service';
-import nomalizeDate from '../../utils/dateUtils';
+import { UsersService } from '@src/services/users.service';
 import { UsersBuilder } from '@src/models/users.model';
+import nomalizeDate from '../../utils/dateUtils';
 
 describe("Kiểm tra UserService", () => {
     beforeAll(async () => {
