@@ -1,7 +1,7 @@
 import { IUsers, UserStatus } from "@interfaces/models/users.model";
-import UsersService from "@src/services/users.service";
+import { UsersService } from "@src/services/users.service";
 
-export default class Users implements IUsers {
+export class Users implements IUsers {
     id: number;
     username: string;
     password: string;

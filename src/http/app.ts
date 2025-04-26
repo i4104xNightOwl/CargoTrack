@@ -1,7 +1,7 @@
 import BaseApp from '@interfaces/http/app';
 
 
-export default class App extends BaseApp {
+export class App extends BaseApp {
     constructor() { super(); }
 
     async stop(): Promise<void> {
