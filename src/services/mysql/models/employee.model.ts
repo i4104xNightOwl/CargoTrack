@@ -70,9 +70,6 @@ EmployeeDB.init({
     role: {
         allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-            isIn: [['driver', 'manager', 'admin']]
-        }
     },
     status: {
         allowNull: false,
