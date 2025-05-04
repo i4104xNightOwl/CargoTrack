@@ -1,7 +1,19 @@
 import { CargoBuilder } from "@src/models/cargo.model";
+import { Employee } from "@src/models/employee.model";
+import { Truck } from "@src/models/truck.model";
+import { Customer } from "@src/models/customer.model";
+import { TruckBuilder } from "@src/models/truck.model";
+import { EmployeeBuilder } from "@src/models/employee.model";
+import { CustomerBuilder } from "@src/models/customer.model";
 import { sequelize } from "@src/services/mysql/models";
+import { TruckStatus } from "@interfaces/models/truck.model";
+import { CargoService } from "@src/services/cargo.service";
 
 describe('Kiểm tra CargoModel', () => {
+    let truck: Truck;
+    let driver: Employee;
+    let customer: Customer;
+
     beforeAll(async () => {
         await sequelize.authenticate();
     });
@@ -9,6 +21,10 @@ describe('Kiểm tra CargoModel', () => {
     beforeEach(async () => {
         await sequelize.drop();
         await sequelize.sync({ force: true });
+
+        truck = await TruckBuilder.new().setLicensePlate("1234567890").setStatus(TruckStatus.NotUsed).build();
+        driver = await EmployeeBuilder.new().build();
+        customer = await CustomerBuilder.new().build();
     })
 
     afterAll(async () => {
@@ -17,17 +33,17 @@ describe('Kiểm tra CargoModel', () => {
 
     it("Kiểm tra addCargoItem", async () => {
         const cargoItem = {
-            customerId: 1,
+            customer: customer,
             cargoType: "up",
             amount: 100,
-            unit: "kg"
+            price: 100
         }
 
         const cargo = CargoBuilder.new()
             .setType("up")
-            .setTruckId(1)
-            .setDriverId(1)
-            .setCustomerId(1)
+            .setTruck(truck)
+            .setDriver(driver)
+            .setCustomer(customer)
             .setCargoItems([cargoItem])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -55,10 +71,10 @@ describe('Kiểm tra CargoModel', () => {
 
         const cargo = CargoBuilder.new()
             .setType("up")
-            .setTruckId(1)
-            .setDriverId(1)
-            .setCustomerId(1)
-            .setCargoItems([{ customerId: 1, cargoType: "up", amount: 100, unit: "kg" }])
+            .setTruck(truck)
+            .setDriver(driver)
+            .setCustomer(customer)
+            .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
             .setLoadingCost(100)
@@ -85,10 +101,10 @@ describe('Kiểm tra CargoModel', () => {
 
         const cargo = CargoBuilder.new()
             .setType("up")
-            .setTruckId(1)
-            .setDriverId(1)
-            .setCustomerId(1)
-            .setCargoItems([{ customerId: 1, cargoType: "up", amount: 100, unit: "kg" }])
+            .setTruck(truck)
+            .setDriver(driver)
+            .setCustomer(customer)
+            .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
             .setLoadingCost(100)
@@ -111,11 +127,11 @@ describe('Kiểm tra CargoModel', () => {
         const paymentDeposit = 100;
 
         const cargo = CargoBuilder.new()
-            .setType("up")
-            .setTruckId(1)
-            .setDriverId(1)
-            .setCustomerId(1)
-            .setCargoItems([{ customerId: 1, cargoType: "up", amount: 100, unit: "kg" }])
+            .setType("up") 
+            .setTruck(truck)
+            .setDriver(driver)
+            .setCustomer(customer)
+            .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
             .setLoadingCost(100)

@@ -3,10 +3,10 @@ import { ICustomer } from './customer.model';
 import { IEmployee } from './employee.model';
 
 export interface CargoItem {
-    customerId: number;
+    customer: ICustomer;
     cargoType: string;
     amount: number;
-    unit: string;
+    price: number;
 }
 
 export interface FuelCost {
@@ -24,7 +24,6 @@ export interface ICargo {
     type: string;
     truck: ITruck;
     driver: IEmployee;
-    customer: ICustomer;
     cargoItems: CargoItem[];
     initialCost: number; // Chi phí ban đầu
     cargoCost: number; // Chi phí hàng hóa
@@ -64,5 +63,8 @@ export interface ICargo {
      */
     addPaymentDeposit(paymentDeposit: number): Promise<ICargo>;
 
-
+    /**
+     * Lưu thông tin đơn hàng
+     */
+    save(): Promise<ICargo>;
 }

@@ -2,7 +2,8 @@ import { ICargo, CargoItem, FuelCost, AdditionalCost } from "@interfaces/models/
 import { ICustomer } from "@interfaces/models/customer.model";
 import { IEmployee } from "@interfaces/models/employee.model";
 import { ITruck } from "@interfaces/models/truck.model";
-
+import { CustomerService } from "@src/services/customer.service";
+import { CargoService } from "@src/services/cargo.service";
 export class Cargo implements ICargo {
     id: number;
     type: string;
@@ -23,17 +24,35 @@ export class Cargo implements ICargo {
     createdAt: Date;
     updatedAt: Date;
 
-    addCargoItem(cargoItem: CargoItem): Promise<ICargo> {
-        throw new Error("Method not implemented.");
+    async addCargoItem(cargoItem: CargoItem): Promise<ICargo> {
+        let customerService = new CustomerService();
+        if (!cargoItem.customer) throw new Error("Customer is required");
+        let customer = await customerService.getById(cargoItem.customer.id);
+        if (!customer) throw new Error("Customer not found");
+
+        this.cargoItems.push(cargoItem);
+        return this;
     }
-    addFuelCost(fuelCost: FuelCost): Promise<ICargo> {
-        throw new Error("Method not implemented.");
+
+    async addFuelCost(fuelCost: FuelCost): Promise<ICargo> {
+        this.fuelCosts.push(fuelCost);
+        return this;
     }
-    addAdditionalCost(additionalCost: AdditionalCost): Promise<ICargo> {
-        throw new Error("Method not implemented.");
+    
+    async addAdditionalCost(additionalCost: AdditionalCost): Promise<ICargo> {
+        this.additionalCosts.push(additionalCost);
+        return this;
     }
-    addPaymentDeposit(paymentDeposit: number): Promise<ICargo> {
-        throw new Error("Method not implemented.");
+
+    async addPaymentDeposit(paymentDeposit: number): Promise<ICargo> {
+        this.paymentDeposit = paymentDeposit;
+        return this;
+    }
+
+    async save(): Promise<ICargo> {
+        let cargoService = new CargoService();
+        await cargoService.update(this);
+        return this;
     }
 }
 
