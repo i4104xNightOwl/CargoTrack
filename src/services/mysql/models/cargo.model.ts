@@ -3,6 +3,7 @@ import { sequelize } from '.'
 import { TruckDB } from './truck.model'
 import { EmployeeDB } from './employee.model'
 import { CustomerDB } from './customer.model'
+import { ICustomer } from '@interfaces/models/customer.model'
 
 interface FuelCost {
     location: string;
@@ -15,7 +16,7 @@ interface AdditionalCost {
 }
 
 interface CargoItem {
-    customerId: number;
+    customer: ICustomer;
     cargoType: string;
     amount: number;
     unit: string;
@@ -26,7 +27,6 @@ export interface CargoDBAttributes {
     type: string // 'up' hoặc 'down'
     truckId: number
     driverId: number
-    customerId: number
     cargoItems: CargoItem[]
     initialCost: number; // Chi phí ban đầu
     cargoCost: number; // Chi phí hàng hóa
@@ -49,7 +49,6 @@ export class CargoDB extends Model<CargoDBAttributes, CargoDBCreationAttributes>
     type: string
     truckId: number
     driverId: number
-    customerId: number
     cargoItems: CargoItem[]
     initialCost: number
     cargoCost: number
@@ -100,14 +99,6 @@ CargoDB.init({
         type: DataTypes.INTEGER,
         references: {
             model: 'employee',
-            key: 'id'
-        }
-    },
-    customerId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'customer',
             key: 'id'
         }
     },
@@ -206,7 +197,6 @@ EmployeeDB.hasMany(CargoDB, {
     foreignKey: 'driverId',
     onDelete: 'CASCADE'
 })
-
 
 TruckDB.hasMany(CargoDB, {
     foreignKey: 'truckId',
