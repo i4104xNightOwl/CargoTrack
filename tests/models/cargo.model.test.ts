@@ -8,6 +8,11 @@ import { CustomerBuilder } from "@src/models/customer.model";
 import { sequelize } from "@src/services/mysql/models";
 import { TruckStatus } from "@interfaces/models/truck.model";
 import { CargoService } from "@src/services/cargo.service";
+import { TruckService } from "@src/services/truck.service";
+import { EmployeeService } from "@src/services/employee.service";
+import { CustomerService } from "@src/services/customer.service";
+import { FuelCost, CargoItem, AdditionalCost } from "@interfaces/models/cargo.model";
+import nomalizeDate from '../../utils/dateUtils';
 
 describe('Kiểm tra CargoModel', () => {
     let truck: Truck;
@@ -22,17 +27,42 @@ describe('Kiểm tra CargoModel', () => {
         await sequelize.drop();
         await sequelize.sync({ force: true });
 
-        truck = await TruckBuilder.new().setLicensePlate("1234567890").setStatus(TruckStatus.NotUsed).build();
-        driver = await EmployeeBuilder.new().build();
-        customer = await CustomerBuilder.new().build();
+        const truckService = new TruckService();
+        const driverService = new EmployeeService();
+        const customerService = new CustomerService();
+
+        truck = await truckService.create(
+            TruckBuilder.new()
+                .setLicensePlate("1234567890")
+                .setStatus(TruckStatus.NotUsed)
+                .build()
+        );
+        driver = await driverService.create(
+            EmployeeBuilder.new()
+                .setName("John Doe")
+                .setEmail("john.doe@example.com")
+                .setPhone("1234567890")
+                .setRole("driver")
+                .setStatus(1)
+                .build()
+        );
+        customer = await customerService.create(
+            CustomerBuilder.new()
+                .setName("John Doe")
+                .setEmail("john.doe@example.com")
+                .setPhone("1234567890")
+                .setStatus(1)
+                .build()
+        );
     })
 
     afterAll(async () => {
+        await sequelize.drop();
         await sequelize.close();
     });
 
     it("Kiểm tra addCargoItem", async () => {
-        const cargoItem = {
+        const cargoItem: CargoItem = {
             customer: customer,
             cargoType: "up",
             amount: 100,
@@ -43,7 +73,6 @@ describe('Kiểm tra CargoModel', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([cargoItem])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -60,11 +89,22 @@ describe('Kiểm tra CargoModel', () => {
         const cargoService = new CargoService();
         const createdCargo = await cargoService.create(cargo);
 
-        expect(createdCargo.cargoItems).toEqual([cargoItem]);
+        const newCargoItem: CargoItem = {
+            customer: customer,
+            cargoType: "up",
+            amount: 200,
+            price: 130
+        }
+
+        await createdCargo.addCargoItem(newCargoItem);
+        await createdCargo.save();
+
+        const updatedCargo = await cargoService.getById(createdCargo.id);
+        expect(nomalizeDate(updatedCargo.cargoItems)).toEqual(expect.arrayContaining(nomalizeDate([cargoItem, newCargoItem])));
     })
 
     it("Kiểm tra addFuelCost", async () => {
-        const fuelCost = {
+        const fuelCost: FuelCost = {
             location: "Hà Nội",
             amount: 100
         }
@@ -73,7 +113,6 @@ describe('Kiểm tra CargoModel', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -90,11 +129,20 @@ describe('Kiểm tra CargoModel', () => {
         const cargoService = new CargoService();
         const createdCargo = await cargoService.create(cargo);
 
-        expect(createdCargo.fuelCosts).toEqual([fuelCost]);
+        const newFuelCost = {
+            location: "Hà Nội",
+            amount: 200
+        }
+
+        await createdCargo.addFuelCost(newFuelCost);
+        await createdCargo.save();
+
+        const updatedCargo = await cargoService.getById(createdCargo.id);
+        expect(nomalizeDate(updatedCargo.fuelCosts)).toEqual(expect.arrayContaining(nomalizeDate([fuelCost, newFuelCost])));
     })
 
     it("Kiểm tra addAdditionalCost", async () => {
-        const additionalCost = {
+        const additionalCost: AdditionalCost = {
             amount: 100,
             reason: "Hà Nội"
         }
@@ -103,7 +151,6 @@ describe('Kiểm tra CargoModel', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -120,7 +167,16 @@ describe('Kiểm tra CargoModel', () => {
         const cargoService = new CargoService();
         const createdCargo = await cargoService.create(cargo);
 
-        expect(createdCargo.additionalCosts).toEqual([additionalCost]);
+        const newAdditionalCost: AdditionalCost = {
+            amount: 200,
+            reason: "Hà Nội"
+        }
+
+        await createdCargo.addAdditionalCost(newAdditionalCost);
+        await createdCargo.save();
+
+        const updatedCargo = await cargoService.getById(createdCargo.id);
+        expect(nomalizeDate(updatedCargo.additionalCosts)).toEqual(expect.arrayContaining(nomalizeDate([additionalCost, newAdditionalCost])));
     })
 
     it("Kiểm tra addPaymentDeposit", async () => {
@@ -130,7 +186,6 @@ describe('Kiểm tra CargoModel', () => {
             .setType("up") 
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -147,6 +202,10 @@ describe('Kiểm tra CargoModel', () => {
         const cargoService = new CargoService();
         const createdCargo = await cargoService.create(cargo);
 
-        expect(createdCargo.paymentDeposit).toEqual(paymentDeposit);
+        await createdCargo.addPaymentDeposit(100);
+        await createdCargo.save();
+
+        const updatedCargo = await cargoService.getById(createdCargo.id);
+        expect(updatedCargo.paymentDeposit).toEqual(paymentDeposit + 100);
     })
 });

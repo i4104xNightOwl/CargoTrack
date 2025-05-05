@@ -21,11 +21,11 @@ describe('Kiểm tra CargoService', () => {
     beforeAll(async () => {
         await sequelize.authenticate();
     })
-
+    
     beforeEach(async () => {
         await sequelize.drop();
         await sequelize.sync({ force: true });
-
+        
         const truckService = new TruckService();
         const driverService = new EmployeeService();
         const customerService = new CustomerService();
@@ -56,6 +56,7 @@ describe('Kiểm tra CargoService', () => {
     })
 
     afterAll(async () => {
+        await sequelize.drop();
         await sequelize.close();
     })
     
@@ -91,7 +92,6 @@ describe('Kiểm tra CargoService', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -118,7 +118,6 @@ describe('Kiểm tra CargoService', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -139,7 +138,6 @@ describe('Kiểm tra CargoService', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)
@@ -166,7 +164,6 @@ describe('Kiểm tra CargoService', () => {
             .setType("up")
             .setTruck(truck)
             .setDriver(driver)
-            .setCustomer(customer)
             .setCargoItems([{ customer: customer, cargoType: "up", amount: 100, price: 100 }])
             .setInitialCost(100)
             .setCargoCost(100)

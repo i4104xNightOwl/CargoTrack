@@ -55,8 +55,12 @@ export class CargoService implements ICargoService {
     private async mapCargoToModel(cargo: any): Promise<ICargo> {
         const customerService = new CustomerService();
 
-        cargo.cargoItems = JSON.parse(cargo.cargoItems);
-        const cargoItems = await Promise.all(cargo.cargoItems.map(async (item: any) => {
+        // Parse các trường JSON
+        const cargoItems = JSON.parse(cargo.cargoItems || '[]');
+        const fuelCosts = JSON.parse(cargo.fuelCosts || '[]');
+        const additionalCosts = JSON.parse(cargo.additionalCosts || '[]');
+
+        const mappedCargoItems = await Promise.all(cargoItems.map(async (item: any) => {
             const customer = await customerService.getById(item.customerId);
             return {
                 customer: plainToInstance(Customer, customer),
@@ -69,7 +73,9 @@ export class CargoService implements ICargoService {
         const cargoItem = plainToInstance(Cargo, cargo.dataValues);
         cargoItem.truck = plainToInstance(Truck, cargo.TruckDB.dataValues);
         cargoItem.driver = plainToInstance(Employee, cargo.EmployeeDB.dataValues);
-        cargoItem.cargoItems = cargoItems;
+        cargoItem.cargoItems = mappedCargoItems;
+        cargoItem.fuelCosts = fuelCosts;
+        cargoItem.additionalCosts = additionalCosts;
         return cargoItem;
     }
     

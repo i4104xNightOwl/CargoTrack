@@ -4,6 +4,7 @@ import { IEmployee } from "@interfaces/models/employee.model";
 import { ITruck } from "@interfaces/models/truck.model";
 import { CustomerService } from "@src/services/customer.service";
 import { CargoService } from "@src/services/cargo.service";
+
 export class Cargo implements ICargo {
     id: number;
     type: string;
@@ -45,7 +46,7 @@ export class Cargo implements ICargo {
     }
 
     async addPaymentDeposit(paymentDeposit: number): Promise<ICargo> {
-        this.paymentDeposit = paymentDeposit;
+        this.paymentDeposit += paymentDeposit;
         return this;
     }
 

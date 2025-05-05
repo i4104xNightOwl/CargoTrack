@@ -198,7 +198,6 @@ EmployeeDB.hasMany(CargoDB, {
     onDelete: 'CASCADE'
 })
 
-
 TruckDB.hasMany(CargoDB, {
     foreignKey: 'truckId',
     onDelete: 'CASCADE'
