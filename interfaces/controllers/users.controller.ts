@@ -11,8 +11,9 @@ export interface IUsersController {
      * Lấy thông tin người dùng theo id
      * @param id 
      * @returns Thông tin người dùng
+     * @throws Error nếu không tìm thấy người dùng
      */
-    getById(id: number): Promise<IUsers | null>;
+    getById(id: number): Promise<IUsers>;
     
     /**
      * Tìm kiếm người dùng theo tên
@@ -25,21 +26,25 @@ export interface IUsersController {
      * Cập nhật thông tin người dùng
      * @param user 
      * @returns Thông tin người dùng
+     * @throws Error nếu không tìm thấy người dùng
      */
-    update(user: IUsers): Promise<IUsers | null>;
+    update(user: IUsers): Promise<IUsers>;
 
     /**
      * Xóa người dùng theo id
      * @param id 
      * @returns Thông tin người dùng
+     * @throws Error nếu không tìm thấy người dùng
      */
-    delete(id: number): Promise<IUsers | null>;
+    delete(id: number): Promise<boolean>;
 
     /**
      * Đăng nhập
      * @param username 
      * @param password 
      * @returns Thông tin người dùng
-     */
-    login(username: string, password: string): Promise<IUsers | null>;
+     * @throws Error lỗi đăng nhập
+    */
+
+    login(username: string, password: string): Promise<IUsers>;
 }
